@@ -3,26 +3,57 @@ import { useState } from "react";
 import "./styles.css";
 
 function App() {
-  const [seconds, setSeconds] = useState(0);
+  const intitalSecondsState = 0;
+  const initialLapsState = [];
+  const [seconds, setSeconds] = useState(intitalSecondsState);
+  const [intervalId, setIntervalId] = useState(null);
+  const [laps, setLaps] = useState([]);
 
-  function onStart() {
-    setInterval(() => {
-      setSeconds(seconds + 1);
+  function start() {
+    let id = setInterval(() => {
+      setSeconds((seconds) => seconds + 1);
     }, 1000);
+    setIntervalId(id);
+  }
+
+  function takeLap() {
+    setLaps((laps) => [...laps, seconds]);
+  }
+
+  const stop = () => clearInterval(intervalId);
+
+  function reset() {
+    clearInterval(intervalId);
+    setSeconds(intitalSecondsState);
+    setLaps(initialLapsState);
   }
 
   return (
     <div className="App">
       <h1>Lap Timer</h1>
-      <div className="App-timer">
-        <h2>{seconds}</h2>
+      <div className="sub-content">
+        <div className="timer">
+          <h2>{seconds}</h2>
+          <button onClick={takeLap} id="lap">
+            Lap
+          </button>
+        </div>
+        <div className="action-btns">
+          <button onClick={reset} id="reset">
+            Reset
+          </button>
+          <button onClick={start} id="start">
+            Start
+          </button>
+          <button onClick={stop} id="stop">
+            Stop
+          </button>
+        </div>
       </div>
-      <div className="App-action-btns">
-        <button id="reset">Reset</button>
-        <button onClick={onStart} id="start">
-          Start
-        </button>
-        <button id="stop">Stop</button>
+      <div className="laps">
+        <ul>
+          {laps.length > 0 && laps.map((lap) => <li> {lap} seconds </li>)}
+        </ul>
       </div>
     </div>
   );

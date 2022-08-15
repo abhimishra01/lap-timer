@@ -2,3 +2,19 @@
   width: 100%;
   text-align: center;
 }
+
+.sub-content {
+  margin: auto;
+  max-width: 20%;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.laps {
+  max-width: 20%;
+  margin: auto;
+}
