@@ -8,8 +8,16 @@ function App() {
   const [seconds, setSeconds] = useState(intitalSecondsState);
   const [intervalId, setIntervalId] = useState(null);
   const [laps, setLaps] = useState([]);
+  const [isActive, setIsActive] = useState(false);
 
-  function start() {
+  function handleStartAndStop() {
+    if (isActive) {
+      clearInterval(intervalId);
+      setIsActive(false);
+      return;
+    }
+
+    setIsActive(true);
     let id = setInterval(() => {
       setSeconds((seconds) => seconds + 1);
     }, 1000);
@@ -20,35 +28,29 @@ function App() {
     setLaps((laps) => [...laps, seconds]);
   }
 
-  const stop = () => clearInterval(intervalId);
-
   function reset() {
     clearInterval(intervalId);
     setSeconds(intitalSecondsState);
     setLaps(initialLapsState);
+    setIsActive(false);
   }
 
   return (
     <div className="App">
       <h1>Lap Timer</h1>
-      <div className="sub-content">
-        <div className="timer">
-          <h2>{seconds}</h2>
-          <button onClick={takeLap} id="lap">
-            Lap
-          </button>
-        </div>
-        <div className="action-btns">
-          <button onClick={reset} id="reset">
-            Reset
-          </button>
-          <button onClick={start} id="start">
-            Start
-          </button>
-          <button onClick={stop} id="stop">
-            Stop
-          </button>
-        </div>
+      <div className="timer">
+        <h2>{seconds}</h2>
+      </div>
+      <div className="action-btns">
+        <button onClick={reset} id="reset">
+          Reset
+        </button>
+        <button onClick={handleStartAndStop} id="start">
+          {isActive ? "Pause" : "Start"}
+        </button>
+        <button onClick={takeLap} id="lap">
+          Lap
+        </button>
       </div>
       <div className="laps">
         <ul>
