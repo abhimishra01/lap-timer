@@ -3,11 +3,6 @@
   text-align: center;
 }
 
-.sub-content {
-  margin: auto;
-  max-width: 20%;
-}
-
 .timer {
   display: flex;
   align-items: center;
